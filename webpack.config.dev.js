@@ -3,9 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+
 module.exports = {
   entry: "./src/index.js",
   output: {
@@ -13,6 +11,8 @@ module.exports = {
     filename: "[name].[contenthash].js",
     assetModuleFilename: " assets/images/[hash][ext][query]",
   },
+  mode: "development",
+  watch: true,
   resolve: {
     extensions: [".js"],
     alias: {
@@ -46,7 +46,7 @@ module.exports = {
           options: {
             limit: 10000,
             mimetype: "application/font-woff",
-            name: "[name].[contenthash].[ext]",
+            name: "[name].[contenthash][ext]",
             outputPath: "./assets/fonts/",
             publicPath: "../assets/fonts/",
             esModule: false,
@@ -73,10 +73,5 @@ module.exports = {
       ],
     }),
     new Dotenv(),
-    new CleanWebpackPlugin(),
   ],
-  optimization: {
-    minimize: true,
-    minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
-  },
 };
